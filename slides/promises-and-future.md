@@ -1,44 +1,45 @@
 
 # Promises
-### Concept, Motive and Implementations
+### Conceito, Motivo e Implementações
 
 ---
 
-## What is it?
+## O que é?
 
-- Something that will or won't be fulfilled 
-- Asynchronous tasks <!-- .element: class="fragment" -->
-- Proposed in 1976 in works of parallel processing <!-- .element: class="fragment" -->
+- Algo que será ou não cumprido
+- Tarefas assíncronas <!-- .element: class="fragment" -->
+- Proposto em 1976 em artigos sobre processamento paralelo <!-- .element: class="fragment" -->
 
-Note: A promise is something that might not be ready yet, but will or won't be ready in the end. 
-In Computer Science the concept of Promises, Futures and Delay as a way to deal with async tasks, and not a new one. 
-In fact, it dates back from 76, when Daniel Friedman and David Wise coined the term in the International Conference in Parallel Processing. 
-It is based on the idea of delaying the usage of the result of an async computation until the computation is ready.
-
----
-
-## Simplify the synchronization in concurrent systems
-
-- Less callbacks <!-- .element: class="fragment" -->
-- Less identation levels <!-- .element: class="fragment" -->
-- More control over exception handling <!-- .element: class="fragment" -->
-- More semantics <!-- .element: class="fragment" -->
-
-Note: Promises can help keeping a cleaner syntax while dealing with asynchronous tasks, ease the synchronization of those tasks and simplify the error/exception handling, giving a better semantic to control these fluxes
+Note: Uma promessa é algo que pode não estar pronto, mas será ou não cumprida em algum momento.
+Em Ciência da Computação o conceito de Promessas, Futuros e Atrasos são maneiras de lidar com tarefas assíncronas, e não é um conceito novo.
+Na verdade, estes conceitos datam de 76, quando Daniel Friedman e David Wise cunharam o termo na Conferência Internacional em Processamento Paralelo.
+Eles são baseados na idéia de atrasar o uso do resultado de uma tarefa assíncrona até que a tarefa seja completada.
 
 ---
 
-## Promise States:
+## Simplificando a sincronização em sistemas concorrentes
 
-- pending
-- fulfilled
-- rejected 
 
-Note: Each promise represents the *possible* result of a task, and starts at the pending state. It can be fulfilled and return a success value or, being rejected, return error details.
+- Menos callbacks <!-- .element: class="fragment" -->
+- Menos níveis de identação <!-- .element: class="fragment" -->
+- Mais controle sobre o tratamento de exceções <!-- .element: class="fragment" -->
+- Mais semântica <!-- .element: class="fragment" -->
+
+Note: Promessas podem ajudar a manter uma sintaxe mais limpa no tratamento de tarefas assíncronas, facilitar a sincronização destas tarefas e simplificar o tratamento de exceções, proporcionando uma melhor semântica (um melhor significado no código) no controle deste tipo de fluxo
 
 ---
 
-## Without Promises
+## Estados de Promessas
+
+- Pendente
+- Cumprida
+- Rejeitada
+
+Note: Cada promessa representa o possível resultado de uma tarefa, e inicia no estado Pendente. Ela pode ser cumprida e retornar o valor de sucesso ou, sendo rejeitada, retornar detalhes do erro.
+
+---
+
+## Sem promessas
 
 ```
 function readJSON(filename, callback){
@@ -54,41 +55,43 @@ function readJSON(filename, callback){
 }
 ```
 
-Note: Here we have a piece of async code without promises.
-The callback looks a little out of place here, been called in different occasions with different parameters.
-In the 1st call, it denotes an error in the readFile function.
-2nd, an error in the parse function, and
-3rd, a successful execution with null error and valid res.
+Note: Aqui temos um trecho de código assíncrono sem promessas.
+A função de callback parece um pouco fora de lugar aqui, sendo chamada em ocasiões diferentes com parâmetros diferentes.
+na primeira chamada, ela retorna um erro na função readFile.
+na segunda, um erro na função parse, e 
+na terceira, uma execução com erro null e um resultado válido.
 
 ---
 
-## Without Promises
+## Sem Promessas
 
-- No return
-- No throw
-- No stacktrace
+- Sem retorno
+- Sem throw
+- Sem Stacktrace
 
-Note: We notice that the return is used only to fast-fail the function, since callbacks don't handle returned values.
-In the same way, there is no need to throw errors/exceptions because they wont be catched.
-And so, no stacktrace would be available, as the callback exists in a separate thread.
+Note: 
+Percebemos que o retorno pe usado apenas para evitar que a função continue executando, já que os valores retornados não são recebidos em um callback.
+
+Do mesmo modo, não há motivo para lançar erros/exceções pois elas não serão tratadas.
+
+Assim, não teremos um stacktrace disponível, pois o callback atua em uma thread separada.
 
 ---
 
-## With Promises
-
+## Com promessas
 ```
 function readJSON(filename){
   return readFile(filename, 'utf8').then(JSON.parse);
 }
 ```
 
-Note: And here, the same functionality if the readFile could return a promise.
-As soon as readFile produces a value, it would feed the parse function and the program would continue.
+Note: E aqui, a mesma funcionalidade se a função readFile pudesse retornar uma promessa.
+Assim que a readFile produzir um valor, este alimentaria a função parse e o programa continuaria.
 
 ---
 
-##  JS implementations
+## Implementações em JS
 
-- [then/promise](https://github.com/then/promise) Simple implementation of [Promises/A+](https://promisesaplus.com/) open standard
-- [kriskowal/q](https://github.com/kriskowal/q/blob/v1/design/README.js) Whose implementation inspired angularjs $q service
-- [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird) Performance-focused implementation
+- [then/promise](https://github.com/then/promise) Implementação simples do padrão aberto [Promises/A+](https://promisesaplus.com/)
+- [kriskowal/q](https://github.com/kriskowal/q/blob/v1/design/README.js) Implementação que inspira o serviço $q do angularjs
+- [petkaantonov/bluebird](https://github.com/petkaantonov/bluebird) Implementação focada em performance
